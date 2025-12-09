@@ -1,16 +1,67 @@
-# React + Vite
+Декомпозиція виконаних задач
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. chore: initial commit
 
-Currently, two official plugins are available:
+Що зробив:
+	•	Створив новий проєкт на React + Vite.
+	•	Налаштував базову структуру файлів, щоб можна було далі розробляти функціонал.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+2. feat: add initial components and styles for Header, EditUsers, and Users pages
 
-## React Compiler
+Що зробив:
+	•	Створив перші компоненти: Header, EditUsers, Users.
+	•	Зробив базову верстку, щоб бачити структуру майбутніх сторінок.
+	•	Підключив початкові стилі, щоб компоненти мали приблизний вигляд.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+3. feat: implement routing and add EditUsers and Users pages
 
-## Expanding the ESLint configuration
+Що зробив:
+	•	Налаштував маршрутизацію (routing), щоб можна було переходити між сторінками.
+	•	Підключив сторінки EditUsers та Users до маршрутизатора.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+4. feat: add EditUsers page with styling
+
+Що зробив:
+	•   Повністю зверстав сторінку EditUsers.
+	•	Додав стилі, щоб сторінка мала фінальний вигляд.
+
+5. feat: refactor EditUsers and Users components with new styles and filters
+
+Що зробив:
+	•	Зверстав сторінку Users.
+	•	Покращив код у компоненті EditUsers, щоб він був акуратніший і зрозуміліший.
+	•	Додав оновлені стилі й перші елементи фільтрації.
+
+6. feat: enhance UsersFilter with custom checkbox styling and functionality
+
+Що зробив:
+	•	Розробив функцію фільтрації юзерів.
+	•	Створив кастомний стиль чекбоксів, щоб вони виглядали сучасніше.
+	•	Додав логіку роботи цих чекбоксів.
+
+7. feat: add search functionality to UsersFilter with styling and no results message
+
+Що зробив:
+	•	Додав пошук у фільтр юзерів.
+	•	Реалізував функцію, коли вибраний фільтр піднімається вище інших.
+	•	Додав повідомлення “нічого не знайдено”, якщо пошук не дав результатів.
+	•	Покращив стилі.
+
+8. feat: update Users and UsersFilter components with improved styling and filter functionality
+
+Що зробив:
+	•	Додав логіку, яка блокує фільтри за країною та статусом, доки в блоці Department не вибрано мінімум 3 опції.
+	•	Оновив стилі компонентів Users та UsersFilter, щоб усе виглядало цілісно.
+
+9. feat: implement reset filters and delete user functionality in Users component
+
+Що зробив:
+	•	Створив кнопку для очищення всіх фільтрів.
+	•	Реалізував можливість видаляти користувача зі списку.
+
+10. feat: implement user update and delete functionality in EditUsers and Users components
+
+Що зробив:
+	•	Додав можливість редагувати дані конкретного юзера на сторінці EditUsers.
+	•	Зробив так, щоб зміни автоматично відображалися на сторінці Users.
+	•	Налаштував повну синхронізацію змін та видалення між обома сторінками.
