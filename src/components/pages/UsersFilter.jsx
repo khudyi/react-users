@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Check } from 'lucide-react';
 
 export const UsersFilter = ({ title, options, selected, onSelectionChange }) => {
   const [opened, setOpened] = useState(false);
 
   const toggleOption = (value) => {
-    onSelectionChange(value); 
+    onSelectionChange(value);
   };
 
   return (
@@ -15,7 +15,7 @@ export const UsersFilter = ({ title, options, selected, onSelectionChange }) => 
         onClick={() => setOpened(!opened)}
       >
         <span className="users__filter-title">
-          {title} { selected.length == 0 ? null : `(${selected.length})`}
+          {title} {selected.length == 0 ? null : `(${selected.length})`}
         </span>
 
         <ChevronDown
@@ -35,7 +35,13 @@ export const UsersFilter = ({ title, options, selected, onSelectionChange }) => 
                 type="checkbox"
                 checked={selected.includes(option)}
                 onChange={() => toggleOption(option)}
+                className="users__filter-input-hidden"
               />
+              <div className="users__custom-checkbox">
+                {selected.includes(option) && (
+                  <Check size={18} className="users__checkbox-icon" />
+                )}
+              </div>
               <span>{option}</span>
             </label>
           ))}
