@@ -2,7 +2,7 @@ import { UsersFilter } from "./UsersFilter";
 import { useState, useMemo } from "react";
 import { Trash2 } from "lucide-react";
 
-import usersData from '../../data/users.json';
+import usersData from '../../data/users.json'; 
 
 import "./Users.css";
 
@@ -14,10 +14,9 @@ const getUniqueOptions = (data, key) => {
 
 export const Users = () => {
     const DEPARTMENT_MIN_COUNT = 3;
-
-    const users = usersData;
-
-    // useMemo для обчислення унікальних опцій лише один раз
+    const [userList, setUserList] = useState(usersData); 
+    
+    const users = usersData; 
     const departmentOptions = useMemo(() => getUniqueOptions(users, 'department'), [users]);
     const countyOptions = useMemo(() => getUniqueOptions(users, 'country'), [users]);
     const statusOptions = useMemo(() => getUniqueOptions(users, 'status'), [users]);
@@ -28,6 +27,19 @@ export const Users = () => {
 
     const isOtherFiltersEnabled = selectedDepartments.length >= DEPARTMENT_MIN_COUNT;
 
+    const resetFilters = () => {
+        setSelectedDepartments([]);
+        setSelectedCounties([]);
+        setSelectedStatuses([]);
+    };
+
+    const deleteUser = (userToDelete) => {
+        setUserList(prevList => 
+            prevList.filter(user => user !== userToDelete)
+            // Альтернативний метод:
+            // prevList.filter((user, index) => !(user.name === userToDelete.name && index === userToDelete.indexInArray))
+        );
+    };
 
     const createToggleHandler = (currentSelected, setCurrentSelected, isDepartmentHandler = false) => (value) => {
 
@@ -66,19 +78,14 @@ export const Users = () => {
     const toggleStatus = createToggleHandler(selectedStatuses, setSelectedStatuses);
 
     const filteredUsers = useMemo(() => {
-        return users.filter(user => {
-            // Фільтрація за департаментом
+        return userList.filter(user => {
             const departmentMatch = selectedDepartments.length === 0 || selectedDepartments.includes(user.department.name);
-
-            // Фільтрація за країною
             const countryMatch = selectedCounties.length === 0 || selectedCounties.includes(user.country.name);
-
-            // Фільтрація за статусом
             const statusMatch = selectedStatuses.length === 0 || (user.status.value === "ALL" || selectedStatuses.includes(user.status.name));
 
             return departmentMatch && countryMatch && statusMatch;
         });
-    }, [users, selectedDepartments, selectedCounties, selectedStatuses]);
+    }, [userList, selectedDepartments, selectedCounties, selectedStatuses]); // Залежність від userList
 
 
     return (
@@ -115,7 +122,11 @@ export const Users = () => {
                     isDisabled={!isOtherFiltersEnabled}
                 />
 
-                <button className="users__icon-btn">
+                <button 
+                    className="users__icon-btn"
+                    onClick={resetFilters} 
+                    title="Reset all filters"
+                >
                     <Trash2 size={20} />
                 </button>
 
@@ -133,16 +144,25 @@ export const Users = () => {
 
                 <div className="users__table-body">
                     {filteredUsers.map((user, index) => (
-                        <div className="users__row" key={user.name + index}>
+                        <div className="users__row" key={user.name + index}> 
                             <span className="users__name">{user.name}</span>
                             <span className="users__info">{user.department.name}</span>
                             <span className="users__info">{user.country.name}</span>
                             <span className="users__info">{user.status.name}</span>
-                            <button className="users__delete-btn">
+                            
+                            <button 
+                                className="users__delete-btn"
+                                onClick={() => deleteUser(user)}
+                            >
                                 <Trash2 size={18} />
                             </button>
                         </div>
                     ))}
+                    {filteredUsers.length === 0 && (
+                        <div className="users__row users__row--empty">
+                            <span>No users match the selected filters.</span>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
