@@ -13,6 +13,12 @@
     border: 1px solid #C4C4C4;
     background-color: #fff;
     color: #000000;
+    text-decoration: none;
+}
+
+.btn.active {
+  background: #C4C4C4;
+  color: #000000;
 }
 
 .btn:hover {
