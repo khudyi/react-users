@@ -1,8 +1,7 @@
-import { UsersFilter } from "./UsersFilter";
 import { useState, useMemo } from "react";
 import { Trash2 } from "lucide-react";
 
-import usersData from '../../data/users.json'; 
+import { UsersFilter } from "./UsersFilter";
 
 import "./Users.css";
 
@@ -11,15 +10,14 @@ const getUniqueOptions = (data, key) => {
     return Array.from(uniqueNames);
 };
 
-
-export const Users = () => {
+export const Users = ({ users: allUsersFromApp, onDeleteUser }) => {
     const DEPARTMENT_MIN_COUNT = 3;
-    const [userList, setUserList] = useState(usersData); 
-    
-    const users = usersData; 
-    const departmentOptions = useMemo(() => getUniqueOptions(users, 'department'), [users]);
-    const countyOptions = useMemo(() => getUniqueOptions(users, 'country'), [users]);
-    const statusOptions = useMemo(() => getUniqueOptions(users, 'status'), [users]);
+
+    const userList = allUsersFromApp;
+
+    const departmentOptions = useMemo(() => getUniqueOptions(userList, 'department'), [userList]);
+    const countyOptions = useMemo(() => getUniqueOptions(userList, 'country'), [userList]);
+    const statusOptions = useMemo(() => getUniqueOptions(userList, 'status'), [userList]);
 
     const [selectedDepartments, setSelectedDepartments] = useState([]);
     const [selectedCounties, setSelectedCounties] = useState([]);
@@ -32,17 +30,18 @@ export const Users = () => {
         setSelectedCounties([]);
         setSelectedStatuses([]);
     };
-
+    
     const deleteUser = (userToDelete) => {
-        setUserList(prevList => 
-            prevList.filter(user => user !== userToDelete)
-            // Альтернативний метод:
-            // prevList.filter((user, index) => !(user.name === userToDelete.name && index === userToDelete.indexInArray))
-        );
+        if (onDeleteUser) {
+            onDeleteUser(userToDelete.name); 
+        } else {
+            console.error("Помилка: Функція onDeleteUser не передана.");
+        }
     };
 
-    const createToggleHandler = (currentSelected, setCurrentSelected, isDepartmentHandler = false) => (value) => {
 
+    const createToggleHandler = (currentSelected, setCurrentSelected, isDepartmentHandler = false) => (value) => {
+        
         if (isDepartmentHandler) {
             setSelectedDepartments(prev => {
                 const isCurrentlySelected = prev.includes(value);
@@ -85,13 +84,13 @@ export const Users = () => {
 
             return departmentMatch && countryMatch && statusMatch;
         });
-    }, [userList, selectedDepartments, selectedCounties, selectedStatuses]); // Залежність від userList
+    }, [userList, selectedDepartments, selectedCounties, selectedStatuses]);
 
 
     return (
         <div className="users">
             <h2 className="users__title">USERS</h2>
-
+            
             {!isOtherFiltersEnabled && (
                 <p className="users__note">
                     Please add at least 3 departments to be able to proceed next steps.

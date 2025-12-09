@@ -102,9 +102,24 @@
     font-size: 16px;
 }
 
+.edit-user__btn:hover {
+    background-color: #C4C4C4;
+    cursor: pointer;
+}
+
 .edit-user__btn--save {
     padding: 14px 112px;
-    background: #f8f8f8;
-    color: #9b9b9b;
+    background: #fff;
+    color: #000000;
+}
+
+.edit-user__btn--save:disabled {
+    opacity: 0.5;
     cursor: not-allowed;
+}
+
+.edit-user__btn--save:disabled:hover {
+    padding: 14px 112px;
+    background: #fff;
+    color: #000000;
 }
