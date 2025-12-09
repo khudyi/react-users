@@ -97,6 +97,29 @@
     border-color: #000000;
 }
 
+.users__filter-search {
+    position: relative;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.users__search-input {
+    width: 100%;
+    padding: 8px 8px 8px 35px;
+    border: 1px solid #dcdfe4;
+    border-radius: 4px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.users__no-results {
+    display: block;
+    padding: 8px 0;
+    color: #777;
+    font-style: italic;
+}
+
 .users__checkbox-icon {
     color: #fff;
 }
