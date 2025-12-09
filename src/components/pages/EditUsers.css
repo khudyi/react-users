@@ -1,0 +1,110 @@
+.edit-user {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 60px 80px;
+    border: 1px solid #000000;
+}
+
+.edit-user__title {
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: 6px;
+    vertical-align: middle;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.edit-user__section {
+    margin-bottom: 50px;
+}
+
+.edit-user__subtitle {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.edit-user__label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.edit-user__select select,
+.edit-user__field input {
+    width: 500px;
+    padding: 14px 16px;
+    border: 1px solid #e2e5ea;
+    border-radius: 4px;
+    background: #fff;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    vertical-align: middle;
+}
+
+.edit-user__select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 500px;
+}
+
+.edit-user__select-field {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: none;
+    background-color: white;
+    width: 100%;
+    height: 48px;
+    border: 1px solid #E3E8EE;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    vertical-align: middle;
+    padding: 8px 12px;
+
+}
+
+.edit-user__chevron {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #1B2438;
+}
+
+.edit-user__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0px 50px;
+    margin-bottom: 70px;
+}
+
+.edit-user__buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.edit-user__btn {
+    padding: 12px 36px;
+    border: 1px solid #dcdfe4;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.edit-user__btn--save {
+    padding: 14px 112px;
+    background: #f8f8f8;
+    color: #9b9b9b;
+    cursor: not-allowed;
+}

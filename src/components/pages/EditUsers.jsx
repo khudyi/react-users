@@ -1,11 +1,11 @@
 import { ChevronDown } from 'lucide-react';
 
-import './Users.css';
+import './EditUsers.css';
 
 export const EditUsers = () => {
     return (
         <div className="edit-user">
-            <h1 className="edit-user__title">EDIT USER</h1>
+            <h2 className="edit-user__title">EDIT USER</h2>
 
             <div className="edit-user__section">
                 <label className="edit-user__label">User</label>

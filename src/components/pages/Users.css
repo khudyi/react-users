@@ -1,11 +1,11 @@
-.edit-user {
+.users {
     max-width: 1240px;
     margin: 0 auto;
     padding: 60px 80px;
     border: 1px solid #000000;
 }
 
-.edit-user__title {
+.users__title {
     font-weight: 500;
     font-style: Medium;
     font-size: 24px;
@@ -16,95 +16,133 @@
     margin-bottom: 60px;
 }
 
-.edit-user__section {
-    margin-bottom: 50px;
+.users__note {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 25px;
 }
 
-.edit-user__subtitle {
-    font-size: 20px;
+.users__filters {
+    display: flex;
+    align-items: center;
+    gap: 20px;
     margin-bottom: 30px;
 }
 
-.edit-user__label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 14px;
-    color: #555;
+.users__filter {
+    border: 1px solid #dcdfe4;
+    padding: 10px 16px;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
 }
 
-.edit-user__select select,
-.edit-user__field input {
-    width: 500px;
-    padding: 14px 16px;
+.users__filter-body {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #dcdfe4;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    width: 100%;
+    padding: 10px 16px;
+    z-index: 20;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.users__filter--big {
+    width: 220px;
+    height: 48px;
+}
+
+.users__filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.users__filter-title {
+    font-weight: 600;
+}
+
+.users__filter-placeholder {
+    color: #aaa;
+}
+
+.users__filter-option {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.users__icon-btn {
+    border: 1px solid #dcdfe4;
+    background: white;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.users__add-btn {
+    width: 150px;
+    height: 48px;
+    border: 1px solid #dcdfe4;
+    background: white;
+    cursor: pointer;
+    margin: 0 0 0 auto;
+}
+
+.users__add-btn:hover {
+    background-color: #C4C4C4;
+    cursor: pointer;
+}
+
+.users__table {
     border: 1px solid #e2e5ea;
     border-radius: 4px;
-    background: #fff;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.2px;
-    vertical-align: middle;
+    overflow: hidden;
 }
 
-.edit-user__select-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 500px;
-}
-
-.edit-user__select-field {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: none;
-    background-color: white;
-    width: 100%;
-    height: 48px;
-    border: 1px solid #E3E8EE;
-    border-radius: 4px;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.2px;
-    vertical-align: middle;
-    padding: 8px 12px;
-
-}
-
-.edit-user__chevron {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    pointer-events: none;
-    color: #1B2438;
-}
-
-.edit-user__grid {
+.users__table-header,
+.users__row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0px 50px;
-    margin-bottom: 70px;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 0.3fr;
+    padding: 16px 20px;
 }
 
-.edit-user__buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 20px;
+.users__table-header {
+    padding: 28px 36px;
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.4px;
+    vertical-align: middle;
+    border-bottom: 1px solid #E3E8EE;
 }
 
-.edit-user__btn {
-    padding: 12px 36px;
-    border: 1px solid #dcdfe4;
-    border-radius: 4px;
-    background: #fff;
+.users__name {
+    font-weight: 400;
+    font-style: Regular;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    vertical-align: middle;
+}
+
+.users__info {
+    font-weight: 300;
+    font-style: Light;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    vertical-align: middle;
+    color: #5E626B;
+}
+
+.users__delete-btn {
+    background: none;
+    border: none;
     cursor: pointer;
-    font-size: 16px;
-}
-
-.edit-user__btn--save {
-    padding: 14px 112px;
-    background: #f8f8f8;
-    color: #9b9b9b;
-    cursor: not-allowed;
 }
