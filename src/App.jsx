@@ -1,6 +1,14 @@
+import { Header } from './components/Header'
+
 import './App.css'
 
-function App() {
-}
+export const App = () => {
+  return (
+    <>
+      <Header />
+      <div className="container">
 
-export default App
+      </div>
+    </>
+  )
+}
