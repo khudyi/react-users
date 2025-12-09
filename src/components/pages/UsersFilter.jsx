@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
 
-export const UsersFilter = ({ title, options, selected, onSelectionChange }) => {
+export const UsersFilter = ({ title, options, selected, onSelectionChange, isDisabled }) => {
   const [opened, setOpened] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(''); 
+  const [searchTerm, setSearchTerm] = useState('');
 
   const toggleOption = (value) => {
     onSelectionChange(value);
@@ -12,7 +12,7 @@ export const UsersFilter = ({ title, options, selected, onSelectionChange }) => 
   // Сортування та фільтрація опцій
   const sortedAndFilteredOptions = useMemo(() => {
     if (!options) return [];
-    
+
     // Фільтрація за пошуковим запитом
     const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
     const filtered = options.filter(option =>
@@ -30,7 +30,7 @@ export const UsersFilter = ({ title, options, selected, onSelectionChange }) => 
 
       // Якщо 'a' обраний, а 'b' ні, 'a' йде нагору (-1)
       if (aIsSelected) return -1;
-      
+
       // Якщо 'b' обраний, а 'a' ні, 'b' йде нагору (1)
       if (bIsSelected) return 1;
 
@@ -42,15 +42,17 @@ export const UsersFilter = ({ title, options, selected, onSelectionChange }) => 
 
   // Функція для скидання пошуку при закритті
   const handleHeaderClick = () => {
-      if (opened) {
-          setSearchTerm('');
-      }
-      setOpened(!opened);
+    if (isDisabled) return;
+
+    if (opened) {
+      setSearchTerm('');
+    }
+
+    setOpened(!opened);
   };
 
   return (
-    <div className="users__filter users__filter--big">
-      {/* HEADER */}
+    <div className={`users__filter users__filter--big ${isDisabled ? 'users__filter-disabled' : null}`}>
       <div
         className="users__filter-header"
         onClick={handleHeaderClick}
@@ -65,21 +67,21 @@ export const UsersFilter = ({ title, options, selected, onSelectionChange }) => 
         />
       </div>
 
-      {opened && (
+      {opened && !isDisabled && (
         <div className="users__filter-body">
-          
+
           <div className="users__filter-search">
             <input
               type="text"
               placeholder="Search options..."
               value={searchTerm}
               // Зупиняємо розповсюдження кліку, щоб не закрити дропдаун
-              onClick={(e) => e.stopPropagation()} 
+              onClick={(e) => e.stopPropagation()}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="users__search-input"
             />
           </div>
-          
+
           {sortedAndFilteredOptions.map((option) => (
             <label
               key={option}
@@ -99,9 +101,9 @@ export const UsersFilter = ({ title, options, selected, onSelectionChange }) => 
               <span>{option}</span>
             </label>
           ))}
-          
+
           {sortedAndFilteredOptions.length === 0 && (
-              <span className="users__no-results">No results found for "{searchTerm}"</span>
+            <span className="users__no-results">No results found for "{searchTerm}"</span>
           )}
         </div>
       )}

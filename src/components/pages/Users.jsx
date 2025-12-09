@@ -1,65 +1,97 @@
 import { UsersFilter } from "./UsersFilter";
-
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Trash2 } from "lucide-react";
+
+import usersData from '../../data/users.json';
 
 import "./Users.css";
 
+const getUniqueOptions = (data, key) => {
+    const uniqueNames = new Set(data.map(user => user[key].name));
+    return Array.from(uniqueNames);
+};
+
+
 export const Users = () => {
-    const users = [
-        {
-            id: 1,
-            name: "Andrey Olishchuck",
-            department: "Digital marketing",
-            country: "Ukraine",
-            status: "Active",
-        },
-        {
-            id: 2,
-            name: "Andrey Olishchuck",
-            department: "Digital marketing",
-            country: "Ukraine",
-            status: "Active",
-        },
-        {
-            id: 3,
-            name: "Andrey Olishchuck",
-            department: "Digital marketing",
-            country: "Ukraine",
-            status: "Active",
-        },
-    ];
+    const DEPARTMENT_MIN_COUNT = 3;
 
-    const departmentOptions = ["Marketing", "Sales", "IT", "HR"];
-    const countyOptions = ["Kyiv", "Lviv", "Odesa", "Kharkiv"];
-    const statusOptions = ["Active", "Inactive", "On Hold"];
+    const users = usersData;
 
-    const [selectedDepartments, setSelectedDepartments] = useState(["Marketing"]);
-    const [selectedCounties, setSelectedCounties] = useState(["Kyiv", "Lviv"]);
+    // useMemo для обчислення унікальних опцій лише один раз
+    const departmentOptions = useMemo(() => getUniqueOptions(users, 'department'), [users]);
+    const countyOptions = useMemo(() => getUniqueOptions(users, 'country'), [users]);
+    const statusOptions = useMemo(() => getUniqueOptions(users, 'status'), [users]);
+
+    const [selectedDepartments, setSelectedDepartments] = useState([]);
+    const [selectedCounties, setSelectedCounties] = useState([]);
     const [selectedStatuses, setSelectedStatuses] = useState([]);
 
-    const createToggleHandler = (currentSelected, setCurrentSelected) => (value) => {
-        setCurrentSelected((prev) =>
-            prev.includes(value)
-                ? prev.filter((v) => v !== value)
-                : [...prev, value]
-        );
+    const isOtherFiltersEnabled = selectedDepartments.length >= DEPARTMENT_MIN_COUNT;
+
+
+    const createToggleHandler = (currentSelected, setCurrentSelected, isDepartmentHandler = false) => (value) => {
+
+        if (isDepartmentHandler) {
+            setSelectedDepartments(prev => {
+                const isCurrentlySelected = prev.includes(value);
+                let newDepartments;
+
+                if (isCurrentlySelected) {
+                    newDepartments = prev.filter((v) => v !== value);
+
+                    if (newDepartments.length < DEPARTMENT_MIN_COUNT) {
+                        setSelectedCounties([]);
+                        setSelectedStatuses([]);
+                    }
+                } else {
+                    newDepartments = [...prev, value];
+                }
+
+                return newDepartments;
+            });
+
+        } else {
+            if (isOtherFiltersEnabled) {
+                setCurrentSelected((prev) =>
+                    prev.includes(value)
+                        ? prev.filter((v) => v !== value)
+                        : [...prev, value]
+                );
+            }
+        }
     };
 
-    const toggleDepartment = createToggleHandler(selectedDepartments, setSelectedDepartments);
+    const toggleDepartment = createToggleHandler(selectedDepartments, setSelectedDepartments, true);
     const toggleCounty = createToggleHandler(selectedCounties, setSelectedCounties);
     const toggleStatus = createToggleHandler(selectedStatuses, setSelectedStatuses);
+
+    const filteredUsers = useMemo(() => {
+        return users.filter(user => {
+            // Фільтрація за департаментом
+            const departmentMatch = selectedDepartments.length === 0 || selectedDepartments.includes(user.department.name);
+
+            // Фільтрація за країною
+            const countryMatch = selectedCounties.length === 0 || selectedCounties.includes(user.country.name);
+
+            // Фільтрація за статусом
+            const statusMatch = selectedStatuses.length === 0 || (user.status.value === "ALL" || selectedStatuses.includes(user.status.name));
+
+            return departmentMatch && countryMatch && statusMatch;
+        });
+    }, [users, selectedDepartments, selectedCounties, selectedStatuses]);
+
 
     return (
         <div className="users">
             <h2 className="users__title">USERS</h2>
 
-            <p className="users__note">
-                Please add at least 3 departments to be able to proceed next steps.
-            </p>
+            {!isOtherFiltersEnabled && (
+                <p className="users__note">
+                    Please add at least 3 departments to be able to proceed next steps.
+                </p>
+            )}
 
             <div className="users__filters">
-                {/* Фільтр 1: Department */}
                 <UsersFilter
                     title="Department"
                     options={departmentOptions}
@@ -67,20 +99,20 @@ export const Users = () => {
                     onSelectionChange={toggleDepartment}
                 />
 
-                {/* Фільтр 2: Select county */}
                 <UsersFilter
-                    title="Select county"
+                    title="Country"
                     options={countyOptions}
                     selected={selectedCounties}
                     onSelectionChange={toggleCounty}
+                    isDisabled={!isOtherFiltersEnabled}
                 />
 
-                {/* Фільтр 3: All Statuses */}
                 <UsersFilter
                     title="All Statuses"
                     options={statusOptions}
                     selected={selectedStatuses}
                     onSelectionChange={toggleStatus}
+                    isDisabled={!isOtherFiltersEnabled}
                 />
 
                 <button className="users__icon-btn">
@@ -100,12 +132,12 @@ export const Users = () => {
                 </div>
 
                 <div className="users__table-body">
-                    {users.map((user) => (
-                        <div className="users__row" key={user.id}>
+                    {filteredUsers.map((user, index) => (
+                        <div className="users__row" key={user.name + index}>
                             <span className="users__name">{user.name}</span>
-                            <span className="users__info">{user.department}</span>
-                            <span className="users__info">{user.country}</span>
-                            <span className="users__info">{user.status}</span>
+                            <span className="users__info">{user.department.name}</span>
+                            <span className="users__info">{user.country.name}</span>
+                            <span className="users__info">{user.status.name}</span>
                             <button className="users__delete-btn">
                                 <Trash2 size={18} />
                             </button>
